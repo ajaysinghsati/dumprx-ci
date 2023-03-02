@@ -1,0 +1,28 @@
+
+task:
+  name: "Firmware Dump by DumprX"
+  only_if: $CIRRUS_REPO_OWNER == 'ajaysinghsati'
+  skip: $CIRRUS_BRANCH == 'main'
+  auto_cancellation: $CIRRUS_BRANCH == 'autocancel'
+  timeout_in: 120m
+  container:
+      image: ghcr.io/sushrut1101/docker:arch
+      privileged: true
+      cpu: 4
+      memory: 16G
+
+  Clone_script:
+      - git clone --depth=1 --single-branch https://github.com/A-s-academy/DumprX.git
+  
+  
+
+  Setup_script:
+      - git config --global user.name "ajaysinghsati"
+      - git config --global user.email "ajaysinghsati@gmail.com"
+      - cd DumprX
+      
+      - sudo bash setup.sh
+
+  DumprX_script:
+      - cd DumprX || echo "Already in the Directory"
+      - ./dumper.sh https://gauss-componentotacostmanual-sg.allawnofs.com/remove-c7b3170d7bf82759c620704cf4d9a910/component-ota/22/12/22/d9fa21424242470c8880aa324b03b1f1.zip
